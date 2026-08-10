@@ -1,0 +1,17 @@
+NO
+DEBUG: a a
+YES
+NO
+DEBUG: aa aa
+YES
+DEBUG: ab ab
+YES
+DEBUG: abc abc
+YES
+NO
+DEBUG: xx yy
+NO
+DEBUG: xy yx
+NO
+DEBUG: xy xy
+YES

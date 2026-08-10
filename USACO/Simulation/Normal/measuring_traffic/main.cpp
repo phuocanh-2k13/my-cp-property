@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    freopen("traffic.in", "r", stdin);
+    freopen("traffic.out", "w", stdout);
+
+    int n; cin >> n;
+    vector<tuple<string, int, int>> sensorRes(n);
+    for (int i = 0; i < n; i++) {
+        string status;
+        int lower, upper;
+        cin >> status >> lower >> upper;
+
+        sensorRes[i] = make_tuple(status, lower, upper);
+    }
+
+    pair<int, int> startRoad = {0, 1e9};
+    pair<int, int> endRoad = {0, 1e9};
+
+    for (int i = n - 1; i >= 0; i--) {
+        auto [type, low, high] = sensorRes[i];
+
+        if (type == "none") {
+            startRoad.first = max(startRoad.first, low);
+            startRoad.second = min(startRoad.second, high);
+        } 
+        else if (type == "on") {
+            startRoad.first -= high;
+            startRoad.second -= low;
+            startRoad.first = max(startRoad.first, 0);
+            startRoad.second = max(startRoad.second, 0);
+        }
+        else {
+            startRoad.first += low;
+            startRoad.second += high;
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        auto [type, low, high] = sensorRes[i];
+
+        if (type == "none") {
+            endRoad.first = max(endRoad.first, low);
+            endRoad.second = min(endRoad.second, high);
+        } 
+        else if (type == "off") {
+            endRoad.first -= high;
+            endRoad.second -= low;
+            endRoad.first = max(endRoad.first, 0);
+            endRoad.second = max(endRoad.second, 0);
+        }
+        else {
+            endRoad.first += low;
+            endRoad.second += high;
+        }
+    }
+
+    cout << startRoad.first << ' ' << startRoad.second << '\n' << endRoad.first << ' ' << endRoad.second << '\n';
+
+    return 0;
+}
