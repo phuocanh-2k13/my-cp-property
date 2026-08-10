@@ -1,60 +1,46 @@
+// Ha Phixah Example Templates Edited 2026-08-10
 #include <bits/stdc++.h>
 using namespace std;
- 
-// Template Optimize from Hà Phixah (phixah_vn) 27/07/2026
-#pragma GCC optimize("O3")
-#pragma GCC optimize("unroll-loops")
 
-// Template Debug from Hà Phixah (phixah_vn) 29/07/2026
-#pragma GCC diagnostic warning "-Wall"
-#pragma GCC diagnostic warning "-Wextra"
+#define ll long long
 
-// I don't even remember the day when i write this, :)
-#define ll long long int
-
-// Template Alias from Hà Phixah (phixah_vn) 28/07/2026
 #define vi vector<int>
-#define vii vector<vector<int>>
-#define vl vector<ll>
-#define vll vector<vector<ll>>
-
-#define vb vector<bool>
-#define vc vector<char>
-#define vs vector<string>
+#define vll vector<long long>
 
 #define pi pair<int, int>
-#define pll pair<ll, ll>
+#define pll pair<long long, long long>
 
-#define vpi vector<pi>
-#define vpll vector<pll>
+#define mi map<int, int>
+#define mll map<long long, long long>
 
-// Template shortcut select VECTOR from Hà Phixah (phixah_vn) 28/07/2026
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 
-// Template CONSTANT (28/07/2026)
-constexpr int MOD = 1e9 + 7;
+bool f(ll sizeOfSquares, ll n, ll w, ll h) {
+    ll a = sizeOfSquares / w;
+    ll b = sizeOfSquares / h;
 
-bool f(ll size, ll width, ll height, ll amt) {
-    if ((amt/width) * (amt/height) >= size) return 1;
-    else return 0;
+    if (a == 0 || b == 0) return false;
+    if (a > n / b + 1) return true;
+    return (sizeOfSquares / w) * (sizeOfSquares / h) >= n;
 }
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    ll x, w, h; cin >> x >> w >> h;
-    ll l = 0, r = 1e18;
-    ll ans = 0;
+    ll w, h, n; cin >> w >> h >> n;
+
+    ll l = 1, r = 1'000'000'000'000'000'000;
+    ll ans = r;
     while (l <= r) {
         ll mid = l + (r - l) / 2;
-        if (f(x, w, h, mid)) {
-            l = mid + 1;
+        if (f(mid, n, w, h)) {
             ans = mid;
+            r = mid - 1;
         }
         else {
-            r = mid - 1;
+            l = mid + 1;
         }
     }
 
