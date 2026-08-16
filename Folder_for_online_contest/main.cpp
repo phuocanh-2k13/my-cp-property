@@ -1,69 +1,53 @@
+// Ha Phixah Example Templates Edited 2026-08-10
 #include <bits/stdc++.h>
 using namespace std;
- 
-// Template Optimize from Hà Phixah (phixah_vn) 27/07/2026
-#pragma GCC optimize("O3")
-#pragma GCC optimize("unroll-loops")
 
-// Template Debug from Hà Phixah (phixah_vn) 29/07/2026
-//#pragma GCC diagnostic warning "-Wall"
-//#pragma GCC diagnostic warning "-Wextra"
+#define ll long long
 
-// I don't even remember the day when i write this, :)
-#define ll long long int
-
-// Template Alias from Hà Phixah (phixah_vn) 28/07/2026
 #define vi vector<int>
-#define vii vector<vector<int>>
-#define vl vector<ll>
-#define vll vector<vector<ll>>
-
-#define vb vector<bool>
-#define vc vector<char>
-#define vs vector<string>
+#define vll vector<long long>
 
 #define pi pair<int, int>
-#define pll pair<ll, ll>
+#define pll pair<long long, long long>
 
-#define vpi vector<pi>
-#define vpll vector<pll>
+#define mi map<int, int>
+#define mll map<long long, long long>
 
-// Template shortcut select VECTOR from Hà Phixah (phixah_vn) 28/07/2026
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
-
-// Template CONSTANT (28/07/2026)
-constexpr int MOD = 1e9 + 7;
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    ll n, q; cin >> n >> q;
-    vl main_arr(n + 1), permutation(n + 1);
-    for (int i = 1; i <= n; i++) {
-        ll x; cin >> x;
-        main_arr[i] = x;
-    }
-    for (int i = 1; i <= n; i++) permutation[main_arr[i]] = i;
-
-    bool is_previous = false;
+    int q; cin >> q;
+    ll v; cin >> v;
+    vector<pair<ll, ll>> chargerSlot;
     while (q--) {
         int type; cin >> type;
         if (type == 1) {
-            int x, y; cin >> x >> y;
-            swap(main_arr[x], main_arr[y]);
-            swap(permutation[main_arr[x]], permutation[main_arr[y]]);
+            ll t, w; cin >> t >> w;
+            chargerSlot.push_back({t, w});
         }
         else {
-            swap(main_arr, permutation);
+            ll t; cin >> t;            
+            if (!chargerSlot.size()) cout << "-1\n";
+            else {
+                ll maxBattery = 0;
+                ll pos = 0;
+                for (int i = 0; i < chargerSlot.size(); i++) {
+                    ll y = min(v, chargerSlot[i].second + t - chargerSlot[i].first);
+                    if (y > maxBattery) {
+                        pos = i;
+                        maxBattery = y;
+                    }
+                }
+                chargerSlot.erase(chargerSlot.begin() + pos);
+
+                cout << maxBattery << '\n';
+            }
         }
     }
-
-    for (int i = 1; i <= n; i++) {
-        cout << (main_arr[i]) << ' ';
-    }
-    cout << '\n';
 
     return 0;
 }

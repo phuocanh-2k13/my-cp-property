@@ -1,8 +1,5 @@
-import numpy as np
-
-n, q = map(int, input().split())
-arr = np.array(list(map(int, input().split())))
-
-while q:
-	
-	q -= 1
+a, b = int(input().split)
+if a + b == 9 or a - b == 9 or a * b == 9 or a / b == 9:
+	print("Nine")
+else:
+	print("Nein")
