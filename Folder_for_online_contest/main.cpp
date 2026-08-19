@@ -20,7 +20,7 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    for (int i = 0; i < 3000000; i++) cout << "vns ";
+    for (int i = 0; i < 4000000; i++) cout << "vnd ";
     cout << '\n';
 
     return 0;
