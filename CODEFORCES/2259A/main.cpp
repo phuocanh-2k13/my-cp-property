@@ -23,28 +23,23 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    map<int, int> perm_a, perm_b;
-
-    int n, q; cin >> n >> q;
-    for (int i = 1; i <= n; i++) {
-        int x; cin >> x;
-        perm_a[i] = x;
-        perm_b[x] = i;
+    int t; cin >> t;
+    while (t--) {
+        int n, k; cin >> n >> k;
+        string s; cin >> s;
+        
+        int ans = 0;
+        for (int i = 0; i < n/k; i++) {
+            bool is_nhoj = false;
+            for (int j = i * k; j < (i + 1) * k; j++) {
+                if (s[j] == '0') {
+                    is_nhoj = true;
+                } 
+            }
+            ans += !is_nhoj;
+        }
+        cout << ans << '\n';
     }
-
-    int highest_now = n + 1;
-    while (q--) {
-        int x; cin >> x;
-        perm_a[perm_b[x]] = 0;
-        perm_a[highest_now] = x;
-        perm_b[x] = highest_now;
-        highest_now++; 
-    }
-
-    for (auto& [x, y] : perm_a) {
-        if (y) cout << y << ' ';
-    }
-    cout << '\n';
 
     return 0;
 }
