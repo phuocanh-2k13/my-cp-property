@@ -1,5 +1,6 @@
 // Ha Phixah Example Templates Edited 2026-08-10
 #include <bits/stdc++.h>
+#include <numeric>
 using namespace std;
 
 #define ll long long
@@ -23,7 +24,24 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
+    int t; cin >> t;
+    while (t--) {
+        int n; cin >> n;
+        int neg = 0;
+        vll arr(n); 
+        for (auto& x : arr) {
+            cin >> x;
+            if (x <= 0) neg++;
+            x = abs(x);
+        }
 
+        sort(all(arr));
+
+        ll ans = accumulate(all(arr), 0LL);
+        if (neg & 1) ans -= 2 * arr[0];
+
+        cout << ans << '\n';
+    }
 
     return 0;
 }

@@ -25,9 +25,29 @@ int main() {
 
     int t; cin >> t;
     while (t--) {
-        int a, b, c; cin >> a >> b >> c;
-        if (a + b == c) cout << '+' << '\n';
-        else cout << '-' << '\n';
+        int n; cin >> n;
+        string s; cin >> s;
+        vi a(26), b(26);
+
+        int maxAns = 0;
+        for (char& c : s) {
+            a[c - 97]++;
+            if (a[c - 97] == 1) maxAns++;
+        }
+
+        for (int i = 0; i < n; i++) {
+            a[s[i] - 97]--;
+            b[s[i] - 97]++;
+
+            int cntA = 0, cntB = 0;
+            for (int i = 0; i < 26; i++) {
+                cntA += a[i] ? 1 : 0;
+                cntB += b[i] ? 1 : 0;
+            }
+            maxAns = max(maxAns, cntA + cntB);
+        }
+
+        cout << maxAns << '\n';
     }
 
     return 0;

@@ -1,1 +1,43 @@
-4 1 3 2 
+
+BRANCH 1
+
+BRANCH 1
+
+BRANCH 1
+-------------- STATE TRIGGER A: 1
+
+BRANCE 2
+STATE: 1
+-------------- STATE TRIGGER B: 2
+
+BRANCE 2
+
+BRANCH 1
+-------------- STATE TRIGGER A: 1
+
+BRANCE 2
+STATE: 1
+STATE: 2
+-------------- STATE TRIGGER B: 3
+
+BRANCE 2
+
+BRANCH 1
+
+BRANCH 1
+-------------- STATE TRIGGER A: 1
+
+BRANCE 2
+STATE: 1
+-------------- STATE TRIGGER B: 2
+
+BRANCE 2
+
+BRANCH 1
+-------------- STATE TRIGGER A: 1
+
+BRANCE 2
+STATE: 1
+STATE: 2
+STATE: 3
+3

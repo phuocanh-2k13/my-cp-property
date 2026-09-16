@@ -1,5 +1,6 @@
 // Ha Phixah Example Templates Edited 2026-08-10
 #include <bits/stdc++.h>
+#include <cmath>
 using namespace std;
 
 #define ll long long
@@ -19,32 +20,55 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 
+pair<ll, bitset<8001>> solve(ll n, ll s, ll l, vll& arr) {
+    bitset<8001> origin;
+
+    if (l == 0) {
+        origin.set(s);
+        return {0, origin};
+    }
+    else if (l < 0) {
+        return {-1, origin};
+    }
+
+    ll currentMax = 1;
+    cout << "\nBRANCH 1\n";
+    pair<ll, bitset<8001>> firstAns = solve(n, s - 1, l - arr[s - 1], arr);
+    if (firstAns.first <= 0) {
+        currentMax += firstAns.first + 1;
+        origin |= firstAns.second;
+            cout << "-------------- STATE TRIGGER A: " << currentMax << '\n';
+
+    }
+    else {
+        currentMax += firstAns.first;
+        origin |= firstAns.second;
+            cout << "-------------- STATE TRIGGER B: " << currentMax << '\n';
+
+    }
+    cout << "\nBRANCE 2\n";
+    pair<ll, bitset<8001>> secondAns = solve(n, s - 1, l - arr[s - 1], arr);
+    if (secondAns.first > currentMax) {
+        currentMax = secondAns.first;
+        origin = secondAns.second;
+    } 
+
+    cout << "STATE: " << currentMax << '\n';
+
+    return {currentMax, origin};
+}
+
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    map<int, int> perm_a, perm_b;
+    ll n, s, l;
+    cin >> n >> s >> l;
 
-    int n, q; cin >> n >> q;
-    for (int i = 1; i <= n; i++) {
-        int x; cin >> x;
-        perm_a[i] = x;
-        perm_b[x] = i;
-    }
+    vll arr(n - 1);
+    for (auto& x : arr) cin >> x;
 
-    int highest_now = n + 1;
-    while (q--) {
-        int x; cin >> x;
-        perm_a[perm_b[x]] = 0;
-        perm_a[highest_now] = x;
-        perm_b[x] = highest_now;
-        highest_now++; 
-    }
-
-    for (auto& [x, y] : perm_a) {
-        if (y) cout << y << ' ';
-    }
-    cout << '\n';
+    cout << solve(n, s, l, arr).first << '\n';
 
     return 0;
 }

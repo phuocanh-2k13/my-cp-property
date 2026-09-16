@@ -23,7 +23,17 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-
+    int t; cin >> t;
+    while (t--) {
+        int n; cin >> n;
+        int even = 0, odd = 0;
+        for (int i = 0; i < n; i++) {
+            int x; cin >> x;
+            if (x & 1) odd += x;
+            else even += x;
+        }
+        cout << (even > odd ? "YES\n" : "NO\n");
+    }
 
     return 0;
 }
