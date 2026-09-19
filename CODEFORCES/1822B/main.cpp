@@ -25,22 +25,16 @@ int main() {
 
     int t; cin >> t;
     while (t--) {
-        int n, q; cin  >> n >> q;
+        int n; cin >> n;
         vll arr(n); for (auto& x : arr) cin >> x;
+        
+        sort(all(arr));
 
-        vll pref(n + 1);
-        for (int i = 1; i <= n; i++) pref[i] = pref[i - 1] + arr[i - 1];
+        ll beautyInMin = arr[0] * arr[1];
+        ll beautyInMax = arr[n - 1] * arr[n - 2];
 
-        while (q--) {
-            int l, r; cin >> l >> r;
-            ll k; cin >> k;
-
-            ll ifSubtract = pref[n] - (pref[r] - pref[l - 1]);
-            ifSubtract += (r - l + 1) * k;
-
-            if (ifSubtract & 1) cout << "YES\n";
-            else cout << "NO\n";
-        }
+        ll maxOfBeauty = max(beautyInMax, beautyInMin);
+        cout << maxOfBeauty << '\n';
     }
 
     return 0;

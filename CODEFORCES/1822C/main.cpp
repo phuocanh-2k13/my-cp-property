@@ -25,22 +25,9 @@ int main() {
 
     int t; cin >> t;
     while (t--) {
-        int n, q; cin  >> n >> q;
-        vll arr(n); for (auto& x : arr) cin >> x;
-
-        vll pref(n + 1);
-        for (int i = 1; i <= n; i++) pref[i] = pref[i - 1] + arr[i - 1];
-
-        while (q--) {
-            int l, r; cin >> l >> r;
-            ll k; cin >> k;
-
-            ll ifSubtract = pref[n] - (pref[r] - pref[l - 1]);
-            ifSubtract += (r - l + 1) * k;
-
-            if (ifSubtract & 1) cout << "YES\n";
-            else cout << "NO\n";
-        }
+        ll n; cin >> n;
+        ll ans = (n * n) + (2 * n) + 2;
+        cout << ans << '\n';
     }
 
     return 0;
