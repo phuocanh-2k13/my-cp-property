@@ -1,9 +1,8 @@
 // Ha Phixah Example Templates Edited 2026-08-10
 #include <bits/stdc++.h>
-#include <cmath>
 using namespace std;
 
-#define ll long long
+#define ll long long int
 
 #define vi vector<int>
 #define vll vector<long long>
@@ -20,55 +19,46 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 
-pair<ll, bitset<8001>> solve(ll n, ll s, ll l, vll& arr) {
-    bitset<8001> origin;
-
-    if (l == 0) {
-        origin.set(s);
-        return {0, origin};
-    }
-    else if (l < 0) {
-        return {-1, origin};
-    }
-
-    ll currentMax = 1;
-    cout << "\nBRANCH 1\n";
-    pair<ll, bitset<8001>> firstAns = solve(n, s - 1, l - arr[s - 1], arr);
-    if (firstAns.first <= 0) {
-        currentMax += firstAns.first + 1;
-        origin |= firstAns.second;
-            cout << "-------------- STATE TRIGGER A: " << currentMax << '\n';
-
-    }
-    else {
-        currentMax += firstAns.first;
-        origin |= firstAns.second;
-            cout << "-------------- STATE TRIGGER B: " << currentMax << '\n';
-
-    }
-    cout << "\nBRANCE 2\n";
-    pair<ll, bitset<8001>> secondAns = solve(n, s - 1, l - arr[s - 1], arr);
-    if (secondAns.first > currentMax) {
-        currentMax = secondAns.first;
-        origin = secondAns.second;
-    } 
-
-    cout << "STATE: " << currentMax << '\n';
-
-    return {currentMax, origin};
-}
-
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    ll n, s, l;
-    cin >> n >> s >> l;
+    int n, m; cin >> n >> m;
+    ll K_DOLLAR_BILL; cin >> K_DOLLAR_BILL;
+    ll amountOfOneDollarBill, ammountOfKDollarBill; cin >> amountOfOneDollarBill >> ammountOfKDollarBill;
+    vll a(n), b(m);
+    for (auto& val : a) cin >> val;
+    for (auto& val : b) cin >> val;
 
-    vll arr(n - 1);
-    for (auto& x : arr) cin >> x;
+    sort(all(a));
+    sort(all(b));
 
-    cout << solve(n, s, l, arr).first << '\n';
+    int products = 0;
+    for (int i = 0; i < m; i++) {
+        if ((ll)(ammountOfKDollarBill * K_DOLLAR_BILL) >= b[i]) {
+            ll kBillNeed = b[i] + K_DOLLAR_BILL - 1;
+
+            ll changes = abs((kBillNeed * K_DOLLAR_BILL) - b[i]);
+            products++;
+
+            amountOfOneDollarBill += changes;
+            ammountOfKDollarBill -= kBillNeed;
+        }
+        else {
+            break;
+        }
+    }
+    amountOfOneDollarBill += ammountOfKDollarBill * K_DOLLAR_BILL;
+    for (int i = 0; i < n; i++) {
+        if (a[i] <= amountOfOneDollarBill) {
+            amountOfOneDollarBill -= a[i];
+            products++;
+        }
+        else break;
+    }
+
+    cout << products << '\n';
+
 
     return 0;
 }
