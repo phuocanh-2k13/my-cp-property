@@ -19,24 +19,25 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 
-ll solve(ll n, vll& arr) {
-    vll dp(n + 3, INT_MAX);
-    dp[1] = arr[0];
-    for (int i = 1; i < n; i++) {
-        dp[i + 1] = min(dp[i + 1], (i != 1 ? dp[i] : 0) + abs(arr[i - 1] - arr[i]));
-        dp[i + 2] = min(dp[i + 2], (i != 1 ? dp[i] : 0) + abs(arr[i - 1] - arr[i + 1]));
-    }
-    return dp[n];
-}
-
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    ll n; cin >> n;
-    vll arr(n); for (auto& x : arr) cin >> x;
+    int n; cin >> n;
+    vi arr(n + 1);
+    for (int i = 1; i <= n; i++) {
+        cin >> arr[i]; 
+    }
 
-    cout << solve(n, arr) << '\n';
+    vi dp(n + 2, INT_MAX);
+    dp[0] = 0;
+    dp[1] = 0;
+    for (int i = 1; i < n; i++) {
+        dp[i + 1] = min(dp[i + 1], dp[i] + abs(arr[i] - arr[i + 1]));
+        dp[i + 2] = min(dp[i + 2], dp[i] + abs(arr[i] - arr[i + 2]));
+    }
+
+    cout << dp[n] << '\n';
 
     return 0;
 }

@@ -19,14 +19,18 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 
-ll knapsack(int n, int w, vi& wt, vi& val) {
-    vll dp(w + 1, 0);
+ll solve(int n, int w, vector<pi>& arr) {
+    vector<vll> dp(n + 1, vll(w + 1));
     for (int i = 1; i <= n; i++) {
-        for (int j = w; j >= wt[i - 1]; j--) {
-            dp[j] = max(dp[j], val[i - 1] + dp[j - wt[i - 1]]);
+        for (int j = 1; j <= w; j++) {
+            if (j < arr[i].first) dp[i][j] = max(0LL, dp[i - 1][j]);
+            else {
+                dp[i][j] = max(dp[i - 1][j], arr[i].second + dp[i - 1][j - arr[i].first]);
+            }
         }
     }
-    return dp[w];
+
+    return dp[n][w];
 }
 
 int main() {
@@ -34,8 +38,10 @@ int main() {
     cin.tie(nullptr);
 
     int n, w; cin >> n >> w;
-    vi wt(n), val(n); for (int i = 0; i < n; i++) cin >> wt[i] >> val[i];
-    cout << knapsack(n, w, wt, val) << '\n';
+    vector<pi> arr(n + 1);
+    for (int i = 1; i <= n; i++) cin >> arr[i].first >> arr[i].second;
+
+    cout << solve(n, w, arr) << '\n';
 
     return 0;
 }
