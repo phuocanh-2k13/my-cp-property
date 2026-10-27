@@ -30,10 +30,10 @@ int main() {
         int ans = 0;
         for (int i = 0; i < (int)s.size(); i++) {
             if (s[i] == '\\') st.push(i);
-            else if (!st.empty()) {
+            else if (s[i] == '/' && !st.empty()) {
                 int p = st.top();
                 st.pop();
-                ans = i - p;
+                ans += (i - p);
             }
         }
         cout << ans << '\n';
