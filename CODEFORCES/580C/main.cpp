@@ -19,38 +19,26 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 
-vector<bool> visited(1e5 + 5);
-int solve(const vector<vi>& graph, const vector<bool>& cats, int m) {
-    stack<pi> state;
-    state.push({ 1, cats[1] });
-    int canVisit = 0;
-    while (!state.empty()) {
-        auto& [x, y] = state.top();
-        state.pop();
-
-        visited[x] = true;
-
-        for (auto& w : graph[x]) {
-            if (!visited[w]) {
-                if (cats[w] == 0) {
-                    state.push({ w, 0 });
-                }
-                else if (y + cats[w] <= m) {
-                    state.push({ w, y + cats[w] });
-                }
-            }
+int lim = 0;
+int solve(const vector<vi>& graph, const vector<bool>& cats, int t, int node, int pr) {
+    if (t > lim) return 0;
+    int ans = 0;
+    bool is_leaf = true;
+    for (auto& w : graph[node]) {
+        if (w != pr) {
+            is_leaf = false;
+            int new_t = cats[w] ? t + 1 : 0;
+            ans += solve(graph, cats, new_t, w, node);
         }
-        if (graph[x][0] == ) canVisit++;
     }
-
-    return canVisit;
+    return is_leaf ? 1 : ans;
 }
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n, m; cin >> n >> m;
+    int n; cin >> n >> lim;
     vector<bool> cats(n + 1);
     for (int i = 1; i <= n; i++) {
         int t; cin >> t;
@@ -64,7 +52,7 @@ int main() {
         adj_list[v].push_back(u);
     }
 
-    cout << solve(adj_list, cats, m) << '\n';
+    cout << solve(adj_list, cats, cats[1], 1, 0) << '\n';
 
     return 0;
 }

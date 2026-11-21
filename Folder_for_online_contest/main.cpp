@@ -1,5 +1,5 @@
+#include <algorithm>
 #include <bits/stdc++.h>
-#include <queue>
 using namespace std;
 
 #define ll long long
@@ -10,52 +10,65 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 
-ll solve(int start, int end, vector<vll>& graph, int sized) {
-    vi distance(sized + 1, INT_MAX);
-    distance[start] = 0;
-
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-    pq.push({ 0, start });
-
-    while (!pq.empty()) {
-        auto [dist, thisNode] = pq.top();
-        pq.pop();
-
-        if (distance[thisNode] < dist) continue;
-        for (int i = 0; i < (int)graph[thisNode].size(); i++) {
-            int wt = 0;
-            if (i > 0) wt = 1;
-
-            if (distance[thisNode] + wt < distance[graph[thisNode][i]]) {
-                distance[graph[thisNode][i]] = distance[thisNode] + wt;
-                pq.push({ distance[thisNode] + wt, graph[thisNode][i] });
-            }
-        }
-    }
-
-    if (distance[end] == INT_MAX) return -1;
-    else return distance[end];
-}
-
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n, m, s, t; cin >> n >> m >> s >> t;
-    vector<vll> adj(n + 1);
-    bool isOk = false;
-    for (int i = 0; i < m; i++) {
-        int a, b; cin >> a >> b;
-        adj[a].push_back(b);
-        if (b == t) isOk = true;
+    ll h, w, n, q; cin >> h >> w >> n >> q;
+    /*
+    vector<vll> arr(h + 1, vll(w + 1));
+    for (int i = 0; i < n; i++) {
+        ll r, c; cin >> r >> c;
+        arr[r][c]++;
     }
-    if (adj[s].size() == 0 && !isOk) {
-        cout << -1 << '\n';
-        return 0;
-    }
-    for (auto& x : adj) sort(all(x));
 
-    cout << solve(s, t, adj, n) << '\n';
+    for (ll i = 1; i <= h; i++) {
+        for (ll j = 1; j <= w; j++) {
+            arr[i][j] += arr[i][j - 1] + arr[i - 1][j] - arr[i - 1][j - 1];
+            //cout << arr[i][j] << ' ';
+        }
+        //cout << '\n';
+    }
+
+    while (q--) {
+        int t; cin >> t;
+        ll ans;
+        if (t == 1) {
+            ll u, d; cin >> u >> d;
+            ans = arr[d][w] - arr[u - 1][w];
+        }
+        else {
+            ll l, r; cin >> l >> r;
+            ans = arr[h][r] - arr[h][l - 1];
+        }
+        cout << ans << '\n';
+    }*/
+
+    vll rows, cols;
+    for (int i = 0; i < n; i++) {
+        ll r, c; cin >> r >> c;
+        rows.push_back(r);
+        cols.push_back(c);
+    }
+    sort(all(rows));
+    sort(all(cols));
+    while (q--) {
+        int t; cin >> t;
+        ll ans = 0;
+        if (t == 1) {
+            ll u, d; cin >> u >> d;
+            auto left = lower_bound(all(rows), u);
+            auto right = upper_bound(all(rows), d);
+            ans = distance(rows.begin(), right) - distance(rows.begin(), left);
+        }
+        else {
+            ll l, r; cin >> l >> r;
+            auto left = lower_bound(all(cols), l);
+            auto right = upper_bound(all(cols), r);
+            ans = distance(cols.begin(), right) - distance(cols.begin(), left);
+        }
+        cout << ans << '\n';
+    }
 
     return 0;
 }
